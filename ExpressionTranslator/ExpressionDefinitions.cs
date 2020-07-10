@@ -11,5 +11,6 @@ namespace ExpressionDebugger
         public string MethodName { get; set; }
         public IEnumerable<Type> Implements { get; set; }
         public bool IsExpression { get; set; }
+        public bool IsExtension { get; set; }
     }
 }

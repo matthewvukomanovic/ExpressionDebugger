@@ -1152,7 +1152,21 @@ namespace ExpressionDebugger
                     : GetName(node);
                 WriteModifier(type == LambdaType.Main);
                 Write(Translate(node.ReturnType), " ", name);
-                var args = VisitArguments("(", node.Parameters, VisitParameterDeclaration, ")");
+                IList<string> prefix = null;
+                if( (Definitions?.IsStatic ?? false)
+                    && (Definitions?.IsExtension ?? false)
+                    && !(Definitions?.IsExpression ?? false)
+                    && node.Parameters.Count > 0
+                    )
+                {
+                    prefix = new List<string>(node.Parameters.Count);
+                    for (int i = 0; i < node.Parameters.Count; i++)
+                    {
+                        prefix.Add(string.Empty);
+                    }
+                    prefix[0] = "this ";
+                }
+                var args = VisitArguments("(", node.Parameters, VisitParameterDeclaration, ")", prefix: prefix);
                 Indent();
                 var body = VisitBody(node.Body, true);
 

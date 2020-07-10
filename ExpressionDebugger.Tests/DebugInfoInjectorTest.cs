@@ -676,6 +676,25 @@ namespace ExpressionDebugger.Tests
         }
 
         [TestMethod]
+        public void TestExtension()
+        {
+            var def = new ExpressionDefinitions
+            {
+                IsStatic = true,
+                IsExtension = true,
+            };
+
+            Expression<Func<int, int, int>> fn = (a, b) => a + b;
+            var str = fn.ToScript(def);
+            Assert.AreEqual(@"
+public static int Main(this int a, int b)
+{
+    return a + b;
+}"
+                ?.Replace("\r\n", "\n"), str?.Replace("\r\n", "\n"));
+        }
+
+        [TestMethod]
         public void TestExpression()
         {
             Expression<Func<Data, Data>> lambda = data => new Data {Id = data.Id + "1", Records = data.Records.Select(it => it + 1)};
