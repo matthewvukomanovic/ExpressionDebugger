@@ -20,7 +20,7 @@ public int Main(int a, int b)
 {
     return a + b;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ public int Main(int a, int b)
         {
             var exp = Expression.PowerAssign(Expression.Variable(typeof(double), "d"), Expression.Constant(2d));
             var str = exp.ToScript();
-            Assert.AreEqual("d = Math.Pow(d, 2d)", str);
+            Assert.AreEqual("d = Math.Pow(d, 2d)"?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -41,7 +41,7 @@ public int Main(int[] a)
 {
     return a[0];
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ public int Main(int[] a)
             Assert.AreEqual(@"
 int p1;
 
-p1 + p1;", str);
+p1 + p1;"?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ public int Main(int a)
 {
     return a < 0 ? a - 1 : a + 1;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ else
 {
     3;
 }"
-            , str);
+            ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -116,7 +116,7 @@ else
 {
     2;
 }"
-            , str);
+            ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ public char Main(string s)
 {
     return s == ""x"" || s == @""\"" || s == null || s.IsNormalized() == false || s.GetType() == typeof(string) ? 'x' : s[0];
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
 
             Expression<Func<string>> fn2 = () => 1f.ToString() + 2m.ToString() + ((byte)1).ToString() + DayOfWeek.Friday.ToString() + default(DateTime).ToString();
             var str2 = fn2.ToScript();
@@ -138,7 +138,7 @@ public string Main()
 {
     return 1f.ToString() + 2m.ToString() + ((byte)1).ToString() + DayOfWeek.Friday.ToString() + default(DateTime).ToString();
 }"
-                , str2);
+                ?.Replace("\r\n", "\n"), str2?.Replace("\r\n", "\n"));
         }
 
         [TestMethod]
@@ -146,10 +146,10 @@ public string Main()
         {
             var now = DateTime.Now;
             var expr = Expression.Constant(now);
-            var script = expr.ToScript();
+            var str = expr.ToScript();
             Assert.AreEqual(@"
 private DateTime DateTime1;
-DateTime1", script);
+DateTime1"?.Replace("\r\n", "\n"), str?.Replace("\r\n", "\n"));
         }
 
 //        [TestMethod]
@@ -216,7 +216,7 @@ DateTime1", script);
 //p1(2);
 //-p1;
 //p1 + 3;"
-//                , str);
+//                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
 //        }
 
         [TestMethod]
@@ -224,7 +224,7 @@ DateTime1", script);
         {
             var exp = Expression.Default(typeof(int));
             var str = exp.ToScript();
-            Assert.AreEqual(@"default(int)", str);
+            Assert.AreEqual(@"default(int)"?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -237,7 +237,7 @@ public int Main(int x)
 {
     return -(-x) + 1 + x - (1 - x);
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -257,7 +257,7 @@ public int Main(int x)
     Console.WriteLine(p);
     return p;
 }))()"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -266,7 +266,7 @@ public int Main(int x)
             var p1 = Expression.Parameter(typeof(int[]));
             var expr = Expression.MakeIndex(p1, null, new[] { Expression.Constant(1) });
             var str = expr.ToScript();
-            Assert.AreEqual("p1[1]", str);
+            Assert.AreEqual("p1[1]"?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -288,7 +288,7 @@ private int func1(int p1)
 {
     return p1 + 1;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -301,7 +301,7 @@ public IQueryable<int> Main(IQueryable<int> q)
 {
     return q.Where<int>(it => it > 0);
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -314,7 +314,7 @@ public List<int> Main()
 {
     return new List<int>() {1, 2, 3};
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -331,7 +331,7 @@ public Dictionary<int, int> Main()
 {
     return new Dictionary<int, int>() {{1, 2}, {3, 4}};
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -368,7 +368,7 @@ while (p1 >= 1)
         continue;
     }
 }"
-            , str);
+            ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -385,7 +385,7 @@ while (true)
     goto label1;
 }
 label1:"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -398,7 +398,7 @@ public int Main()
 {
     return DateTime.Now.Day;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         private class Poco
@@ -428,7 +428,7 @@ public DebugInfoInjectorTest.Poco Main()
         Children = {new DebugInfoInjectorTest.Poco(), new DebugInfoInjectorTest.Poco()}
     };
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -441,7 +441,7 @@ public int Main(Dictionary<int, int> dict)
 {
     return dict[0];
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -454,7 +454,7 @@ public string Main(List<int> list)
 {
     return list.ToString();
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -467,7 +467,7 @@ public int Main(int a, int b)
 {
     return Math.Max(a, b);
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -480,7 +480,7 @@ public int[] Main(int i)
 {
     return new int[] {i};
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -493,7 +493,7 @@ public int[] Main(int i)
 {
     return new int[i];
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -506,7 +506,7 @@ public int Main(int? @null)
 {
     return @null.Value;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -528,7 +528,7 @@ switch (p1)
         0;
         break;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -560,7 +560,7 @@ finally
 {
     throw new NotSupportedException();
 }"
-        , str);
+        ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -584,7 +584,7 @@ finally
         ""blah"";
     }
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -597,7 +597,7 @@ public bool Main(object o)
 {
     return o is Array;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -610,7 +610,7 @@ public int Main(double d)
 {
     return (int)d;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -623,7 +623,7 @@ public int Main(int[] a)
 {
     return a.Length;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -636,7 +636,7 @@ public Expression Main(Expression expr)
 {
     return expr as UnaryExpression;
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         internal static int GetInternal() => 1;
@@ -672,7 +672,7 @@ namespace ExpressionDebugger.Tests
         }
     }
 }"
-                , str);
+                ?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         [TestMethod]
@@ -685,7 +685,7 @@ public Expression<Func<DebugInfoInjectorTest.Data, DebugInfoInjectorTest.Data>> 
 {
     Id = data.Id + ""1"",
     Records = data.Records.Select<int, int>(it => it + 1)
-};", str);
+};"?.Replace("\r\n","\n"), str?.Replace("\r\n","\n"));
         }
 
         public class Data
